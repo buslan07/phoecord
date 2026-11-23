@@ -18,10 +18,12 @@ const FOLDERS: &[(&str, &str)] = &[
 /// directory (`%APPDATA%`, `~/.config`, `~/Library/Application Support`); `home` adds the Flatpak
 /// location of Vesktop.
 pub fn find(config: &Path, home: Option<&Path>) -> Vec<(&'static str, PathBuf)> {
-    let mut out = Vec::new();
+    let mut out: Vec<(&'static str, PathBuf)> = Vec::new();
     for (name, dir) in FOLDERS {
         let p = config.join(dir).join("settings").join("settings.json");
-        if p.is_file() && !out.iter().any(|(_, q)| q == &p) {
+        // `vesktop` and `Vesktop` are the same folder on case-insensitive file systems (Windows,
+        // macOS by default): compare real paths so one file is not listed twice.
+        if p.is_file() && !out.iter().any(|(_, q)| same_file(q, &p)) {
             out.push((*name, p));
         }
     }
@@ -32,6 +34,13 @@ pub fn find(config: &Path, home: Option<&Path>) -> Vec<(&'static str, PathBuf)> 
         }
     }
     out
+}
+
+fn same_file(a: &Path, b: &Path) -> bool {
+    match (std::fs::canonicalize(a), std::fs::canonicalize(b)) {
+        (Ok(a), Ok(b)) => a == b,
+        _ => a == b,
+    }
 }
 
 /// Names of the Vencord plugins switched on in a `settings.json` text.
