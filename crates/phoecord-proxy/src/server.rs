@@ -14,7 +14,7 @@ use hyper_util::rt::TokioIo;
 use std::convert::Infallible;
 use std::net::SocketAddr;
 use std::sync::Arc;
-use tokio::net::{TcpListener, TcpStream};
+use tokio::net::TcpListener;
 
 pub async fn bind(addr: &str) -> Result<TcpListener> {
     Ok(TcpListener::bind(addr).await?)
@@ -91,7 +91,10 @@ async fn front(
         let result = if intercept {
             mitm(app, io, host.clone()).await
         } else {
-            tunnel(io, &host, port).await
+            match app.upstream_route() {
+                Ok(route) => tunnel(io, &host, port, route).await,
+                Err(e) => Err(e),
+            }
         };
         if let Err(e) = result {
             tracing::debug!("{host}:{port}: {e:#}");
@@ -100,8 +103,13 @@ async fn front(
     Ok(Response::new(empty()))
 }
 
-async fn tunnel(mut io: TokioIo<hyper::upgrade::Upgraded>, host: &str, port: u16) -> Result<()> {
-    let mut up = TcpStream::connect((host, port)).await?;
+async fn tunnel(
+    mut io: TokioIo<hyper::upgrade::Upgraded>,
+    host: &str,
+    port: u16,
+    route: Option<crate::egress::Upstream>,
+) -> Result<()> {
+    let mut up = crate::egress::connect(route.as_ref(), host, port).await?;
     up.set_nodelay(true).ok();
     tokio::io::copy_bidirectional(&mut io, &mut up).await?;
     Ok(())
@@ -111,7 +119,11 @@ async fn mitm(app: Arc<Proxy>, io: TokioIo<hyper::upgrade::Upgraded>, host: Stri
     let tls = tokio_rustls::TlsAcceptor::from(app.server_tls.clone())
         .accept(io)
         .await?;
-    let upstream = Arc::new(Upstream::new(host.clone(), app.upstream_tls.clone()));
+    let upstream = Arc::new(Upstream::new(
+        host.clone(),
+        app.upstream_tls.clone(),
+        app.upstream_route()?,
+    ));
     let svc = service_fn(move |req: Request<Incoming>| {
         let (app, upstream, host) = (app.clone(), upstream.clone(), host.clone());
         async move {
@@ -140,6 +152,7 @@ mod tests {
     use crate::config::{Config, Paths};
     use phoecord_plugin_runtime::Chain;
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    use tokio::net::TcpStream;
 
     #[test]
     fn only_loopback_peers_are_served() {

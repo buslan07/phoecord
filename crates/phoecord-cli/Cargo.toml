@@ -18,6 +18,7 @@ phoecord-plugins.workspace = true
 serde_json.workspace = true
 phoecord-installer = { path = "../phoecord-installer" }
 anyhow.workspace = true
+dirs.workspace = true
 clap = { version = "4", features = ["derive"] }
 futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
 http-body-util = "0.1"

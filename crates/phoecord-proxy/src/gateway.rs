@@ -14,7 +14,6 @@ use phoecord_core::Val;
 use rustls::pki_types::ServerName;
 use std::sync::Arc;
 use std::sync::atomic::Ordering;
-use tokio::net::TcpStream;
 use tokio_tungstenite::WebSocketStream;
 use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::tungstenite::handshake::derive_accept_key;
@@ -58,7 +57,7 @@ pub async fn upgrade(
             up_req.headers_mut().insert(h.clone(), v.clone());
         }
     }
-    let tcp = TcpStream::connect((host.as_str(), 443)).await?;
+    let tcp = crate::egress::connect(app.upstream_route()?.as_ref(), &host, 443).await?;
     tcp.set_nodelay(true).ok();
     let tls = tokio_rustls::TlsConnector::from(app.upstream_tls.clone())
         .connect(ServerName::try_from(host.clone())?, tcp)

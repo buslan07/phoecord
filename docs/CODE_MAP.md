@@ -180,6 +180,7 @@ Planned in 1.1; the table is filled as each item lands.
 | Name | Kind | Default | Used by |
 |:---|:---|:---|:---|
 | `listen` | `config.toml` | `127.0.0.1:18463` | proxy |
+| `upstream` | `config.toml` | unset (direct) | proxy (`phoecord-proxy::egress`): `socks5://host:port` or `http://host:port`; applies to new connections without a restart |
 | `intercept` | `config.toml` | Discord API and Gateway hosts | proxy |
 | `language` | `config.toml` | OS language, fallback `en` | all user-facing text; order: `--lang` flag, then this key, then the OS language, then `en` (`phoecord_i18n::resolve_language`); `phoecord paths` shows the result and its source |
 | `--lang <code>` | CLI flag | unset | overrides `language` for one command |

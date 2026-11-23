@@ -97,6 +97,10 @@ enum Cmd {
         #[arg(short, default_value_t = 20)]
         n: usize,
     },
+    ImportVencord {
+        #[arg(long, value_name = "FILE")]
+        path: Option<std::path::PathBuf>,
+    },
     Selftest,
     Paths,
 }
@@ -217,6 +221,7 @@ fn dispatch(cli: Cli, paths: Paths, resolved: &Resolved, l10n: &Localizer) -> Re
         Cmd::Disable { name } => switch(&paths, &name, Some(false), l10n),
         Cmd::Toggle { name } => switch(&paths, &name, None, l10n),
         Cmd::Log { n } => log::run(&paths, n, l10n),
+        Cmd::ImportVencord { path } => import_vencord(&paths, path, l10n),
         Cmd::Selftest => runtime()?.block_on(selftest::run(paths, l10n)),
         Cmd::Paths => {
             for (key, p) in [
@@ -574,6 +579,65 @@ fn plugins(paths: &Paths, l10n: &Localizer) -> Result<()> {
         );
     }
     println!("\n{}", config_line(l10n, paths));
+    Ok(())
+}
+
+fn import_vencord(paths: &Paths, path: Option<std::path::PathBuf>, l10n: &Localizer) -> Result<()> {
+    use phoecord_installer::vencord;
+    let file = match path {
+        Some(p) => p,
+        None => {
+            let config = dirs::config_dir().unwrap_or_default();
+            let home = dirs::home_dir();
+            let found = vencord::find(&config, home.as_deref());
+            let Some((name, p)) = found.into_iter().next() else {
+                anyhow::bail!(l10n.t("cli-import-none"));
+            };
+            println!(
+                "{}",
+                tf(
+                    l10n,
+                    "cli-import-found",
+                    &[("name", name), ("path", &p.display().to_string())]
+                )
+            );
+            p
+        }
+    };
+    let text = std::fs::read_to_string(&file).with_context(|| {
+        tf(
+            l10n,
+            "cli-import-read",
+            &[("path", &file.display().to_string())],
+        )
+    })?;
+    let enabled = vencord::enabled_plugins(&text)?;
+    let mut cfg = Config::load_or_init(&paths.config)?;
+    let known: Vec<_> = chain()
+        .manifests()
+        .iter()
+        .map(|m| (m.id.clone(), m.vencord.clone(), cfg.is_enabled(&m.id)))
+        .collect();
+    let plan = vencord::plan(&enabled, &known);
+    for id in &plan.enable {
+        cfg.set_enabled(id, true)?;
+        println!("{}", tf(l10n, "cli-plugin-state-on", &[("name", id)]));
+    }
+    if !plan.enable.is_empty() {
+        cfg.save(&paths.config)?;
+    }
+    println!(
+        "\n{}",
+        tf(
+            l10n,
+            "cli-import-summary",
+            &[
+                ("enabled", &plan.enable.len().to_string()),
+                ("already", &plan.already_on.len().to_string()),
+                ("unmatched", &plan.unmatched.len().to_string()),
+            ]
+        )
+    );
     Ok(())
 }
 

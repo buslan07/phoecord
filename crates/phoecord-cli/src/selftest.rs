@@ -65,12 +65,12 @@ async fn via_proxy(
 }
 
 pub async fn run(paths: Paths, l10n: &Localizer) -> Result<()> {
-    let app = Proxy::new(
-        paths,
-        Config::default(),
-        Chain::new(phoecord_plugins::builtin()),
-        true,
-    )?;
+    // Honour `upstream` from the user's config, so the check also covers a VPN/zapret setup.
+    let cfg = Config {
+        upstream: Config::load(&paths.config).ok().and_then(|c| c.upstream),
+        ..Config::default()
+    };
+    let app = Proxy::new(paths, cfg, Chain::new(phoecord_plugins::builtin()), true)?;
     let listener = phoecord_proxy::server::bind("127.0.0.1:0").await?;
     let addr = listener.local_addr()?.to_string();
     tokio::spawn(phoecord_proxy::server::serve(app.clone(), listener));

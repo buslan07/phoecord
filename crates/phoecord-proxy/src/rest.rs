@@ -15,7 +15,6 @@ use rustls::pki_types::ServerName;
 use std::convert::Infallible;
 use std::io::Read;
 use std::sync::Arc;
-use tokio::net::TcpStream;
 
 pub type BoxError = Box<dyn std::error::Error + Send + Sync>;
 pub type Body = BoxBody<Bytes, BoxError>;
@@ -84,20 +83,26 @@ fn is_json(h: &HeaderMap) -> bool {
 pub struct Upstream {
     host: String,
     tls: Arc<rustls::ClientConfig>,
+    route: Option<crate::egress::Upstream>,
     sender: tokio::sync::Mutex<Option<SendRequest<Body>>>,
 }
 
 impl Upstream {
-    pub fn new(host: String, tls: Arc<rustls::ClientConfig>) -> Upstream {
+    pub fn new(
+        host: String,
+        tls: Arc<rustls::ClientConfig>,
+        route: Option<crate::egress::Upstream>,
+    ) -> Upstream {
         Upstream {
             host,
             tls,
+            route,
             sender: tokio::sync::Mutex::new(None),
         }
     }
 
     async fn connect(&self) -> Result<SendRequest<Body>> {
-        let tcp = TcpStream::connect((self.host.as_str(), 443))
+        let tcp = crate::egress::connect(self.route.as_ref(), &self.host, 443)
             .await
             .with_context(|| format!("connecting to {}", self.host))?;
         tcp.set_nodelay(true).ok();

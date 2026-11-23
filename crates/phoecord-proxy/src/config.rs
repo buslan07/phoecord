@@ -17,6 +17,10 @@ pub struct Config {
     /// Hosts whose HTTPS traffic PhoeCord opens up (`*.` and `-*` wildcards allowed). Everything else
     /// is tunnelled through untouched, e.g. the CDN, media and voice.
     pub intercept: Vec<String>,
+    /// Send every outgoing connection through this proxy (`socks5://host:port` or `http://host:port`),
+    /// for VPN and zapret users. Direct when unset; applies to new connections without a restart.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub upstream: Option<String>,
     /// UI language (`en`, `ru`); the OS language when unset.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
@@ -46,6 +50,7 @@ impl Default for Config {
                 "gateway-*.discord.gg".into(),
             ],
             language: None,
+            upstream: None,
             plugins,
             extra: toml::Table::new(),
         }

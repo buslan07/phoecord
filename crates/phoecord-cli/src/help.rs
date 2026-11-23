@@ -60,6 +60,8 @@ pub fn localize(mut cmd: Command, l: &Localizer) -> Command {
                         } else {
                             "cli-arg-channel"
                         }))
+                    } else if id == "path" {
+                        a.help(l.t("cli-arg-import-path"))
                     } else if id == "accept_terms" {
                         a.help(l.t("cli-arg-accept-terms"))
                     } else {

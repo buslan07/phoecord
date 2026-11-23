@@ -6,6 +6,8 @@ All notable changes to the project ([Keep a Changelog](https://keepachangelog.co
 
 ### Added
 
+- 1.1.11: `upstream = "socks5://host:port"` or `"http://host:port"` in `config.toml` sends every outgoing connection of the proxy (intercepted REST and Gateway, and tunnelled) through a SOCKS5 or HTTP-CONNECT proxy, for VPN and zapret users; a dead or refusing upstream gives a clear error; `phoecord selftest` honours it.
+- 1.2.9: `phoecord import-vencord [--path FILE]` finds the settings of Vencord, Vesktop or Equicord and switches on the PhoeCord plugins whose `Manifest::vencord` matches an enabled Vencord plugin (English and Russian).
 - Stage 1.1 core refactor: the proxy, REST and Gateway run through Plugin API v1 and `Chain`; `ProxyHost` provides scoped settings, KV, account state and notifications. The `phoecord` CLI now has `run`, `launch`, `setup`, `trust`, `untrust`, `plugins`, `enable`, `disable`, `toggle`, `paths` and `selftest`.
 - Cargo workspace of 8 crates: `core`, `proxy`, `plugin-runtime`, `plugin-sdk`, `plugins`, `loader`, `installer`, `cli`.
 - Plugin API v1 (`phoecord-core::plugin`): `Manifest`, `Event`, `EventKind`, `Verdict`, `Host`.

@@ -63,7 +63,7 @@ Details, files and "done when" in [`ai/plan.md`](ai/plan.md). **This table is th
 | **1.1.8** 🟡 | `selftest` against the real Discord | Nanda | ✅ |
 | **1.1.9** 🟡 | Gateway fixtures without personal data | anyone | ⏳ |
 | **1.1.10** 🟡 | Chain benchmark: ≤ 1 ms p99 | Nanda | ⏳ |
-| **1.1.11** 🟡 | Upstream proxy (SOCKS5 / HTTP) for outgoing connections, for VPN and zapret users | anyone | ⏳ |
+| **1.1.11** 🟡 | Upstream proxy (SOCKS5 / HTTP) for outgoing connections, for VPN and zapret users | anyone | ✅ 23.11, in review |
 | **1.1.12** 🟡 | Transport boundary: the proxy as one backend of the plugin chain, ready for an in-process backend | Nanda | ⏳ |
 | **1.2.1** 🔴 | `silent_typing` | matvee | ✅ |
 | **1.2.2** 🟡 | `unindent` | matvee | ⏳ |
@@ -73,7 +73,7 @@ Details, files and "done when" in [`ai/plan.md`](ai/plan.md). **This table is th
 | **1.2.6** 🔴 | `message_logger` and `phoecord log` | Nanda | ✅ 23.11, PR #22 |
 | **1.2.7** 🔴 | `clear_urls` (new) | matvee | ✅ 23.11, PR #42 |
 | **1.2.8** 🟡 | `/phoecord` slash commands (new) | Nanda | ✅ 23.11, PR #22 |
-| **1.2.9** 🟢 | `phoecord import-vencord` | anyone | ⏳ |
+| **1.2.9** 🟢 | `phoecord import-vencord` | anyone | ✅ 23.11, in review |
 | **1.2.10** 🟡 | Message filters: iLoveSpam, NoBlockedMessages, NoReplyMention (ImageLink and NoPendingCount are UI-only, moved to Phase 2) | Nanda | ✅ 23.11, PR #45 |
 | **1.2.11** 🟡 | Outgoing text: TextReplace, SendTimestamps, AnonymiseFileNames, SilentMessageToggle (`/phoecord silent`); BetterGifAltText is UI-only, moved to Phase 2 | Nanda | ✅ 23.11, PR #49 |
 | **1.2.12** 🟡 | Commands: CustomCommands, FriendInvites, petpet, SpotifyShareCommands, ServerInfo, ViewRaw, UnsuppressEmbeds | anyone | ⏳ |

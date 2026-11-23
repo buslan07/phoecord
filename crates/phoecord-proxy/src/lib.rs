@@ -7,6 +7,7 @@ pub mod account;
 pub mod ca;
 pub mod codec;
 pub mod config;
+pub mod egress;
 pub mod gateway;
 pub mod host;
 pub mod rest;
@@ -124,6 +125,16 @@ impl Proxy {
 
     pub fn cfg(&self) -> Arc<Config> {
         self.config.read().unwrap().clone()
+    }
+
+    /// The `upstream` proxy from the live config; `None` means connect directly.
+    pub fn upstream_route(&self) -> anyhow::Result<Option<egress::Upstream>> {
+        self.cfg()
+            .upstream
+            .as_deref()
+            .filter(|s| !s.trim().is_empty())
+            .map(egress::Upstream::parse)
+            .transpose()
     }
 
     /// Make `cfg` the live config and switch the chain to the plugins it enables.
