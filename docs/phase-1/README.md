@@ -41,7 +41,7 @@ none
 | | Nanda | Contributors |
 |:---|:---|:---|
 | Area | core, Plugin API, proxy, CA and trust, loader, installer, runtime, releases, review and merging | plugins, SDK examples, tests and fixtures, translations, docs, research |
-| Tasks | 1.0.1, 1.0.2, 1.1.1, 1.1.2, 1.1.3, 1.1.4, 1.1.5, 1.1.6, 1.1.7, 1.1.8, 1.1.10, 1.1.12, 1.1.13, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 1.2.8, 1.2.10, 1.2.11, 1.3.1, 1.3.2, 1.3.3, 1.3.4, 1.3.5, 1.3.8, 1.4.1, 1.4.2, 1.4.4, 1.4.6, 1.4.7, 1.4.8, 1.4.9, 1.5.1, 1.5.2, 1.5.3, 1.5.4, 1.5.5, 1.5.7, 1.5.8, 1.6.1, 1.6.2, 1.6.3, 1.6.4, 1.6.5, 1.7.1, 1.7.2, 1.7.3, 1.7.4, 1.7.5, 1.3.9, 1.3.10, 1.3.11 (open: 1.3.9, 1.3.10, 1.3.11) | 1.2.1, 1.2.2, 1.2.7, 1.2.12, 1.2.13 (matvee; open: 1.2.12, 1.2.13); 1.1.11, 1.2.9 (buslan07; all done); 1.2.16, 1.2.18, 1.2.19, 1.4.3, 1.4.5, 1.5.6 (Kennurken; all done); 1.1.9, 1.2.14, 1.2.15, 1.2.17, 1.3.6, 1.3.7 (open to anyone; open) |
+| Tasks | 1.0.1, 1.0.2, 1.1.1, 1.1.2, 1.1.3, 1.1.4, 1.1.5, 1.1.6, 1.1.7, 1.1.8, 1.1.10, 1.1.12, 1.1.13, 1.2.3, 1.2.4, 1.2.5, 1.2.6, 1.2.8, 1.2.10, 1.2.11, 1.3.1, 1.3.2, 1.3.3, 1.3.4, 1.3.5, 1.3.8, 1.4.1, 1.4.2, 1.4.4, 1.4.6, 1.4.7, 1.4.8, 1.4.9, 1.5.1, 1.5.2, 1.5.3, 1.5.4, 1.5.5, 1.5.7, 1.5.8, 1.6.1, 1.6.2, 1.6.3, 1.6.4, 1.6.5, 1.7.1, 1.7.2, 1.7.3, 1.7.4, 1.7.5, 1.3.9, 1.3.10, 1.3.11 (open: 1.3.9, 1.3.10, 1.3.11) | 1.2.1, 1.2.2, 1.2.7, 1.2.12, 1.2.13 (matvee; open: 1.2.12, 1.2.13); 1.1.11, 1.2.9, 1.2.14, 1.2.15, 1.3.6 (buslan07; open: 1.2.14, 1.2.15, 1.3.6); 1.2.16, 1.2.18, 1.2.19, 1.4.3, 1.4.5, 1.5.6 (Kennurken; all done); 1.1.9, 1.2.17, 1.3.7 (open to anyone; open) |
 
 Plugin API changes (`phoecord-core::plugin`) are made by Nanda only: contributor plugins are written against an API that is already merged.
 
@@ -79,8 +79,8 @@ Details, files and "done when" in [`ai/plan.md`](ai/plan.md). **This table is th
 | **1.2.11** 🟡 | Outgoing text: TextReplace, SendTimestamps, AnonymiseFileNames, SilentMessageToggle (`/phoecord silent`); BetterGifAltText is UI-only, moved to Phase 2 | Nanda | ✅ 23.11, PR #49 |
 | **1.2.12** 🟡 | Commands: CustomCommands, FriendInvites, petpet, SpotifyShareCommands, ServerInfo, ViewRaw, UnsuppressEmbeds | matvee | ⏳ |
 | **1.2.13** 🟡 | Presence: CustomRPC, MusicRichPresence, IgnoreActivities, AutoDNDWhilePlaying, CustomIdle | matvee | ⏳ |
-| **1.2.14** 🟡 | Profiles: NoProfileThemes, FakeProfileThemes, USRBG, Decor (data part) | anyone | ⏳ |
-| **1.2.15** 🟡 | External services: Dearrow, GifProviderSwitcher, FixImagesQuality | anyone | ⏳ |
+| **1.2.14** 🟡 | Profiles: NoProfileThemes, FakeProfileThemes, USRBG, Decor (data part) | buslan07 | ⏳ |
+| **1.2.15** 🟡 | External services: Dearrow, GifProviderSwitcher, FixImagesQuality | buslan07 | ⏳ |
 | **1.2.16** 🟡 | Data parts of UI plugins: ValidUser, ValidReply, NewGuildSettings, OverrideForumDefaults, MessageLinkEmbeds, PlatformIndicators, TypingIndicator, MemberCount, MutualGroupDMs, WhoReacted, and the other 🌐 + 🎨 rows of `docs/PLUGINS.md` marked 1.2.16 | Kennurken | ✅ 25.11, PR #68 (17 data parts, off by default; synthetic payload tests only, a live test-account check is still due) |
 | **1.2.17** 🟡 | Translate, ReviewDB, VoiceMessages (data part), XSOverlay | anyone | ⏳ |
 | **1.2.18** 🟢 | ShowHiddenChannels, ShowHiddenThings, Experiments (data part) | Kennurken | ✅ 25.11, PR #68 (3 data parts, off by default; READY rewrites behind their own settings, also off; synthetic tests only) |
@@ -90,7 +90,7 @@ Details, files and "done when" in [`ai/plan.md`](ai/plan.md). **This table is th
 | **1.3.3** 🔴 | Limits: time, memory, disable on panic | Nanda | ✅ 23.11, PR #24 |
 | **1.3.4** 🔴 | Packages `plugin.toml` + `plugin.wasm`, hot loading | Nanda | ✅ 23.11, PRs #24 and #28 (new packages load on the next 2 s scan, removed ones unload) |
 | **1.3.5** 🔴 | Rights from the manifest | Nanda | ✅ 23.11, PR #24 |
-| **1.3.6** 🟡 | SDK: bindings, macro, `examples/hello-plugin` | anyone | ⏳ |
+| **1.3.6** 🟡 | SDK: bindings, macro, `examples/hello-plugin` | buslan07 | ⏳ |
 | **1.3.7** 🟡 | TypeScript plugin template | anyone | ⏳ |
 | **1.3.8** 🔴 | `clear_urls` as a WASM plugin | Nanda | ✅ 23.11, PR #48 (`examples/plugins/clear_urls`, 79 KB, loads without a restart) |
 | **1.3.9** 🟡 | Plugin dev console: live plugin logs, events and verdicts, toggle, reload, replay (`phoecord dev console`) | Nanda | ⏳ |

@@ -245,8 +245,8 @@ Every row of [`docs/PLUGINS.md`](../../PLUGINS.md) whose "Where" column names a 
 | 1.2.11 Outgoing text | `RestRequest` body rewriting; multipart file names for AnonymiseFileNames | Nanda |
 | 1.2.12 Commands | the `/phoecord` command framework from 1.2.8; `Host::rest` for FriendInvites and UnsuppressEmbeds | matvee |
 | 1.2.13 Presence | `Send` op 3 rewriting; `Host::emit_send`; `Host::fetch` for MusicRichPresence (Last.fm, ListenBrainz) | matvee |
-| 1.2.14 Profiles | `RestResponse` rewriting of profile responses; `Host::fetch` for USRBG and Decor | anyone |
-| 1.2.15 External services | `Host::fetch` (DeArrow API, Tenor/Giphy) | anyone |
+| 1.2.14 Profiles | `RestResponse` rewriting of profile responses; `Host::fetch` for USRBG and Decor | buslan07 |
+| 1.2.15 External services | `Host::fetch` (DeArrow API, Tenor/Giphy) | buslan07 |
 | 1.2.16 Data parts | `Host::rest` (ValidUser, ValidReply, NewGuildSettings); `Dispatch` `extra` payloads | Kennurken |
 | 1.2.17 Translate etc. | `Host::fetch` (translation backend, ReviewDB API); XSOverlay over a local UDP right | anyone |
 | 1.2.18 Hidden things | `Dispatch` `READY` / `GUILD_CREATE` rewriting; experiment assignments | Kennurken |
@@ -297,7 +297,7 @@ Every row of [`docs/PLUGINS.md`](../../PLUGINS.md) whose "Where" column names a 
 
 **Done when:** a test guest without `notify` cannot notify, and one subscribed to REST never sees Gateway events.
 
-### 1.3.6. SDK and example (anyone)
+### 1.3.6. SDK and example (buslan07)
 
 **Files:** `crates/phoecord-plugin-sdk/**`, `examples/hello-plugin/**`
 
