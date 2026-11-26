@@ -334,6 +334,7 @@ The installer window (stage 1.4.3). Every change to the machine goes through `ph
 |:---|:---|
 | `scripts/check.sh`, `scripts/check.ps1` | All checks in order, stop at first failure (see `AGENTS.md`) |
 | `scripts/check_i18n.py` | Every key of `crates/*/i18n/en/*.ftl` exists in the `ru` file with the same variables; exit 1 otherwise |
+| `scripts/check_builds.py` | Runs `phoecord check` on every client exe in a folder outside the repository (2.2.6, 2.2.9); exit 1 on any failure, with fewer than `--min-builds` exes, or with `--phoenix` on an exe outside a `DiscordPhoenix` folder | Not wired into `check.ps1` or CI; the builds are never committed |
 | `scripts/scrub_fixture.py` | Rewrites a decoded Gateway event into a `tests/fixtures/` entry with no real data (task 2.1.10): every string/snowflake replaced, keys/nesting/types and the envelope (`op`/`t`/`s`/`type`) kept; `--map` for a consistent id across files; `--self-test` | Not wired into `check.ps1`; run by hand when adding a fixture |
 | `examples/plugins/clear_urls/` | The first third-party plugin example: `clear_urls` as a WASM package (`plugin.toml` id `clear_urls_wasm`, `wit-bindgen`), its own cargo workspace, excluded from the main one; README shows build and install |
 | `examples/hello-plugin/` | The smallest SDK plugin (`hello_plugin`): logs `MESSAGE_CREATE` ids; its own cargo workspace, built by the `sdk-example` CI job | `Cargo.lock` is committed and CI builds with `--locked` |

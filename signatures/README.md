@@ -46,6 +46,8 @@ A signature counts as found only if it matches **exactly once** in the client's 
 
 `phoecord check <path to the client exe> [--signatures <folder>]` reads the exe from disk, without running it, picks the table for its build and prints every signature as found (with its RVA), missed or ambiguous. The folder defaults to `signatures` under the current directory; pass `%LOCALAPPDATA%\PhoeCord\signatures` to check what the loader would use. The exit code is 0 only when a table matches, it is not empty, every signature resolves and every file in the folder loads.
 
+Client exes are never committed. To check several at once, keep them in a folder outside the repository and run `python -I scripts/check_builds.py <folder> --phoecord <phoecord binary>`. For Phoenix builds add `--phoenix`: it requires a `DiscordPhoenix` folder in every exe's path (`<folder>/<version>/DiscordPhoenix/Discord.exe`), which is what makes a missed typed locator fail. `--min-builds 2` also fails when there are fewer than two exes.
+
 ## Results
 
 Resolved addresses are RVAs (relative to the exe's module base). The loader adds the base of the running process.
